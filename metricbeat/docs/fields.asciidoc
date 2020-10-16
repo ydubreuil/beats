@@ -40158,6 +40158,16 @@ type: float
 
 --
 
+*`system.diskio.iostat.queue.avg_time`*::
++
+--
+The average time that requests spend in the OS queue before being sent to the device.
+
+
+type: float
+
+--
+
 *`system.diskio.iostat.await`*::
 +
 --

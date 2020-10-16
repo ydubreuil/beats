@@ -76,6 +76,7 @@ func (stat *DiskIOStat) CalIOStatistics(result *DiskIOMetric, counter disk.IOCou
 	wr_bytes := counter.WriteBytes - last.WriteBytes
 	wr_ticks := counter.WriteTime - last.WriteTime
 	ticks := counter.IoTime - last.IoTime
+	io_in_progress := counter.IopsInProgress - last.IopsInProgress
 	aveq := counter.WeightedIO - last.WeightedIO
 	n_ios := rd_ios + wr_ios
 	n_ticks := rd_ticks + wr_ticks
@@ -83,11 +84,16 @@ func (stat *DiskIOStat) CalIOStatistics(result *DiskIOMetric, counter disk.IOCou
 	size := float64(0)
 	wait := float64(0)
 	svct := float64(0)
+	qtime := float64(0)
 
 	if n_ios > 0 {
 		size = float64(n_bytes) / float64(n_ios)
 		wait = float64(n_ticks) / float64(n_ios)
 		svct = float64(ticks) / float64(n_ios)
+	}
+
+	if n_ios > 0 || rd_merges > 0 || wr_merges > 0 {
+		qtime = float64(aveq)/(float64(n_ios+rd_merges+wr_merges)+float64(io_in_progress)) - svct
 	}
 
 	queue := float64(aveq) / deltams
@@ -111,6 +117,7 @@ func (stat *DiskIOStat) CalIOStatistics(result *DiskIOMetric, counter disk.IOCou
 		result.AvgWriteAwaitTime = float64(wr_ticks) / float64(wr_ios)
 	}
 	result.AvgServiceTime = svct
+	result.AvgQueueTime = qtime
 	result.BusyPct = 100.0 * float64(ticks) / deltams
 	if result.BusyPct > 100.0 {
 		result.BusyPct = 100.0

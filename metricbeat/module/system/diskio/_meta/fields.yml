@@ -108,6 +108,11 @@
       description: >
           The average queue length of the requests that were issued to the device.
 
+    - name: iostat.queue.avg_time
+      type: float
+      description: >
+          The average time that requests spend in the OS queue before being sent to the device.
+
     - name: iostat.await
       type: float
       description: >

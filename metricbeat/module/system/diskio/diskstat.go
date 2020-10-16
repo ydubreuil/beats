@@ -44,6 +44,7 @@ type DiskIOMetric struct {
 	AvgWriteAwaitTime float64 `json:"w_await"`
 	AvgServiceTime    float64 `json:"svctm"`
 	BusyPct           float64 `json:"busy"`
+	AvgQueueTime      float64 // this field is not available in iostat, it is calculated using the formula provided in pt-diskstat
 }
 
 type DiskIOStat struct {
