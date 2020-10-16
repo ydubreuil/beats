@@ -113,6 +113,7 @@ func (m *MetricSet) Fetch(r mb.ReporterV2) error {
 				},
 				"queue": common.MapStr{
 					"avg_size": extraMetrics.AvgQueueSize,
+					"avg_time": extraMetrics.AvgQueueTime,
 				},
 				"request": common.MapStr{
 					"avg_size": extraMetrics.AvgRequestSize,

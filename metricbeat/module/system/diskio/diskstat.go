@@ -44,6 +44,7 @@ type DiskIOMetric struct {
 	AvgWriteAwaitTime float64 `json:"w_await"`
 	AvgServiceTime    float64 `json:"svctm"`
 	BusyPct           float64 `json:"busy"`
+	AvgQueueTime      float64 `json:"queue_time"`
 }
 
 type DiskIOStat struct {
